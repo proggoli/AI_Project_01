@@ -1,0 +1,25 @@
+GLM_Grade_2_Resultate_Notizen
+
+keine direkte, signifikante lineare Übertragung von Grade 1
+Wetter gewinnt an Bedeutung
+
+Intercept = 35 Sekunden - grundsätzliche Verspätung ohne Abhängigkeit S9
+
+die Verspätungen werden nicht 1:1 weitergereicht.
+
+Wochentagseffekt ist stark - je später in der Woche, desto weniger Verspätung
+
+keine Wirkung bei Tageszeit und Monat
+
+mit Wetter
+
+AIC sinkt - Wetter verbessert Modell klar
+
+die lineare Verspätungsübertragung endet nach Grade 1 - Grade1_delay_sec
+
+pro Grad Temperatur ergeben sich ca 2 Sekunden weniger Verspätung
+
+Niederschlag: Niederschlag wirkt sich massiv auf weiterführende Züge aus
+
+Wind und Schneehöhe hat kein Effekt
+
