@@ -1,0 +1,23 @@
+GLM Grade 1 Resultate
+
+ohne Wetterdaten:
+Intercept = 30s - die Anschlusszüge haben im Mittel bereits ca. 30s Verspätung, auch ohne Verspätung der S9
+
+hat die S9 60s Verspätung, so bekommen die Züge aus Grade 1 7.3 Sekunden zusätzliche Verspätung. Dabei wird nur in 12% die Verspätung der S9 weitergegeben.
+
+Die Tageszeit erklärt keine zusätzliche Varianz.
+
+Im Verlauf der Woche (Weekday_num) sinken die Verspätungen leicht - kann aufs Wochenende zurückgeführt werden.
+
+Der Monat gibt kein Effekt - saisonale Effekte wirken nicht linear!
+
+mit Wetterdaten
+
+die Wetterdaten verändern den Kerneffekt nicht, die Verspätungsübertragungen sind robust
+
+Temperatur und Wind alleine haben keinen Einfluss
+
+der Schnee hat den grössten Effekt - ist aber auch nicht signifikant. Schnee kann Verspätungen verstärken, aber die Effekte sind selten, stark variabel und nicht stabil genug für einen linearen Nachweis
+
+Modellvergleich AIC
+das Wettermodell ist minimal schlechter - die Modellgüte wird nicht signifikant verbessert. die Verspätungsübertragung wird primär durch betriebliche Faktoren (Verspätung der S9) erklärt.
