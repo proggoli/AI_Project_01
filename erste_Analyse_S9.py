@@ -1,10 +1,11 @@
 import pandas as pd
 import statsmodels.formula.api as smf
 import statsmodels.api as sm
+import os
 
 
-events_0 = pd.read_csv(r"C:\Users\prisc\OneDrive\Dokumente\Studium\7. Semester\Artifical Intelligence\AI_Auswirkung_S9\S9_LZ.sql_2025-12-10-1116.csv", encoding="utf-8")
-weather_0 = pd.read_csv(r"C:\Users\prisc\OneDrive\Dokumente\Studium\7. Semester\Artifical Intelligence\AI_Auswirkung_S9\Wetterdaten_Luzern_Jan-Dez.csv", sep=";")
+events_0 = pd.read_csv(r"C:\Users\prisc\OneDrive\Dokumente\Studium\7. Semester\Artifical Intelligence\Einzelprojekt\AI_Auswirkung_S9\S9_LZ.sql_2025-12-10-1116.csv", encoding="utf-8")
+weather_0 = pd.read_csv(r"C:\Users\prisc\OneDrive\Dokumente\Studium\7. Semester\Artifical Intelligence\Einzelprojekt\AI_Auswirkung_S9\Wetterdaten_Luzern_Jan-Dez.csv", sep=";")
 
 events = events_0.copy()
 weather = weather_0.copy()
@@ -73,5 +74,9 @@ df_g2 = (
 for c in ["Schneehöhe", "Temperatur", "Niederschlag", "Wind"]:
     df_g1[c] = df_g1[c].fillna(0)
     df_g2[c] = df_g2[c].fillna(0)
+
+
+#speichern
+df.to_csv("../events_with_weather.csv", index=False)
 
 
