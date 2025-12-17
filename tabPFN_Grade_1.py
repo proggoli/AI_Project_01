@@ -21,7 +21,7 @@ features = [
     "Niederschlag",
     "Wind",
     "Schneehöhe",
-]
+] 
 
 target = "DELAY_SEC"
 
