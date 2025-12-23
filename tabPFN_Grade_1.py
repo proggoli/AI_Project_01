@@ -1,60 +1,189 @@
+import os
 import pandas as pd
 import numpy as np
 
 from tabpfn import TabPFNRegressor
-from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
-from sklearn.preprocessing import StandardScaler
 
-# 1) Daten laden
-df = pd.read_csv("../events_with_weather.csv")
+#Daten laden - nur Daten mit Grade 1 betrachten
+df = pd.read_csv("data/events_with_weather.csv")
+df = df[df["GRADE"] == 1].copy()
 
-# 2) Grade 1 filtern
-df_g1 = df[df["GRADE"] == 1].copy()
+# Zyklische Uhrzeit-Features
+minutes = df["PLANNED_MINUTE_OF_DAY"]
+df["minute_sin"] = np.sin(2 * np.pi * minutes / 1440)
+df["minute_cos"] = np.cos(2 * np.pi * minutes / 1440)
 
+#Features laden
 features = [
     "S9_ROOT_DELAY_SEC",
-    "PLANNED_MINUTE_OF_DAY",
+    "minute_sin",
+    "minute_cos",
     "WEEKDAY_NUM",
     "MONTH_NUM",
     "Temperatur",
     "Niederschlag",
     "Wind",
     "Schneehöhe",
-] 
-
+]
 target = "DELAY_SEC"
 
-# Nur Zeilen mit allen nötigen Werten
-df_g1 = df_g1.dropna(subset=features + [target])
+# OPERATIONAL_DAY als Datum parsen 
+df["OPERATIONAL_DAY"] = pd.to_datetime(df["OPERATIONAL_DAY"], errors="coerce")
 
-X = df_g1[features].values
-y = df_g1[target].values
+# Nur vollständige Zeilen
+df = df.dropna(subset=features + [target, "OPERATIONAL_DAY"])
+print("Final dataset shape:", df.shape)
 
-# 3) Train/Test Split
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42
-)
+# Zeitlich sortieren
+df = df.sort_values("OPERATIONAL_DAY").reset_index(drop=True)
 
-# 4) Scaling (hilft oft)
-scaler = StandardScaler()
-X_train = scaler.fit_transform(X_train)
-X_test = scaler.transform(X_test)
+# Training auf den früheren 80% der Zeit, Test auf den 20% die späteres Datum haben
+split_idx = int(len(df) * 0.8)
+train_df = df.iloc[:split_idx]
+test_df  = df.iloc[split_idx:]
 
-# 5) Modell trainieren
-model = TabPFNRegressor(device="cpu")  # falls du GPU hast: "cuda"
+X_train = train_df[features].values
+X_test  = test_df[features].values
+
+# Log-Target - negative Werte (also zu frühe Ankünfte werden 0 gesetzt)
+y_train = np.log1p(np.clip(train_df[target].values, 0, None))
+y_test  = np.log1p(np.clip(test_df[target].values, 0, None))
+
+#Ausgabe - wie ist Modell aufgebaut
+print("N train:", len(y_train), "N test:", len(y_test))
+print("Train days:", train_df["OPERATIONAL_DAY"].min(), "→", train_df["OPERATIONAL_DAY"].max())
+print("Test days :", test_df["OPERATIONAL_DAY"].min(), "→", test_df["OPERATIONAL_DAY"].max())
+
+#Modell fitten, durchführen mit GPU
+model = TabPFNRegressor(device="cuda", ignore_pretraining_limits=True)
 model.fit(X_train, y_train)
 
-# 6) Predict + Metrics
-y_pred = model.predict(X_test)
+#in Sekunden zurückrechnen
+y_pred_log = model.predict(X_test)
 
-mae = mean_absolute_error(y_test, y_pred)
-rmse = mean_squared_error(y_test, y_pred) ** 0.5
-r2 = r2_score(y_test, y_pred)
+y_pred = np.expm1(y_pred_log)
+y_true = np.expm1(y_test)
 
-print("=== TabPFN Grade 1 ===")
-print("N train:", len(y_train), "N test:", len(y_test))
-print("MAE :", round(mae, 2))
-print("RMSE:", round(rmse, 2))
+mae  = mean_absolute_error(y_true, y_pred)
+rmse = mean_squared_error(y_true, y_pred) ** 0.5
+r2   = r2_score(y_true, y_pred)
+
+print("\n=== TabPFN Grade 1 (time-based, log-target) ===")
+print("MAE :", round(mae, 2), "sec")
+print("RMSE:", round(rmse, 2), "sec")
 print("R²  :", round(r2, 3))
+
+#MAE: durchschnittliche Abweichung in Sekunden
+#RMSE: empfindlicher auf Ausreisser als MAE - es gibt Fälle da liegt das Modell mehr daneben
+#R2: Varianz - negativ = empfindlich, da ev Muster instabil sind, oder auch aufgrund des zeitbasierten Splits - Verspätungen haben noch andere Einflüsse
+
+#Szenarios berechnen:
+
+# Szenario 1: allgemein - wie viel Verspätung ergibt sich den Grade 1 Zügen bei gewisser Verspätung der S9?
+# Root-Delay-Szenarien (Sekunden)
+root_delays = np.array([0, 60, 120, 180, 300, 600])
+
+# Referenz-Situation: Median aller Trainingsdaten
+base_row = train_df[features].median()
+
+scenario_df = pd.DataFrame([base_row] * len(root_delays))
+scenario_df["S9_ROOT_DELAY_SEC"] = root_delays
+
+X_scenarios = scenario_df.values
+
+# Vorhersage (log-space)
+y_scenarios_log = model.predict(X_scenarios)
+
+# Zurück in Sekunden
+y_scenarios_sec = np.expm1(y_scenarios_log)
+
+scenario_results = pd.DataFrame({
+    "S9_ROOT_DELAY_SEC": root_delays,
+    "Predicted_Grade1_Delay_SEC": y_scenarios_sec
+})
+
+print("\n=== Szenario-Analyse: S9 → Grade 1 Luzern ===")
+print(scenario_results)
+
+#Szenario 2: wie sind die Unterschiede zwichen Hauptverkehrszeiten (HVZ) und Nebenverkehrszeiten (NVZ)
+
+time_windows = {
+    "HVZ_Morgen (06:30–09:00)": 7 * 60 + 30,   # 07:30
+    "NVZ_Tag (09:01–16:59)":    13 * 60,       # 13:00
+    "HVZ_Abend (17:00–19:00)":  18 * 60,       # 18:00
+    "Nacht (19:00–06:29)":      21 * 60         # 21:00
+}
+
+root_delays = np.array([0, 60, 120, 180, 300, 600])
+
+base_row = train_df[features].median()
+
+scenario_rows = []
+
+for label, minute in time_windows.items():
+    minute_sin = np.sin(2 * np.pi * minute / 1440)
+    minute_cos = np.cos(2 * np.pi * minute / 1440)
+
+    scenario_df = pd.DataFrame([base_row] * len(root_delays))
+    scenario_df["S9_ROOT_DELAY_SEC"] = root_delays
+    scenario_df["minute_sin"] = minute_sin
+    scenario_df["minute_cos"] = minute_cos
+
+    y_log = model.predict(scenario_df[features].values)
+    y_sec = np.expm1(y_log)
+
+    for rd, pred in zip(root_delays, y_sec):
+        scenario_rows.append({
+            "Zeitfenster": label,
+            "S9_ROOT_DELAY_SEC": rd,
+            "Predicted_Grade1_Delay_SEC": pred
+        })
+
+time_window_results = pd.DataFrame(scenario_rows)
+
+print("\n=== Szenario-Analyse nach Zeitfenstern ===")
+print(time_window_results)
+
+#Visualisierung
+import matplotlib.pyplot as plt
+
+# Plot 1: Gesamtüberblick
+plt.figure(figsize=(7, 4))
+plt.plot(
+    scenario_results["S9_ROOT_DELAY_SEC"],
+    scenario_results["Predicted_Grade1_Delay_SEC"],
+    marker="o"
+)
+
+plt.xlabel("S9 Root Delay [sec]")
+plt.ylabel("Predicted Grade-1 Delay [sec]")
+plt.title("Delay Propagation: S9 → Grade-1 (Lucerne)")
+plt.grid(True)
+plt.tight_layout()
+plt.savefig("plots/delay_propagation_time_of_day.png", dpi=300)
+plt.close()
+
+
+# Plot 2: Zeitfenster-Vergleich
+plt.figure(figsize=(8, 5))
+
+for label in time_window_results["Zeitfenster"].unique():
+    subset = time_window_results[time_window_results["Zeitfenster"] == label]
+    plt.plot(
+        subset["S9_ROOT_DELAY_SEC"],
+        subset["Predicted_Grade1_Delay_SEC"],
+        marker="o",
+        label=label
+    )
+
+plt.xlabel("S9 Root Delay [sec]")
+plt.ylabel("Predicted Grade-1 Delay [sec]")
+plt.title("Delay Propagation by Time of Day")
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+plt.savefig("plots/delay_propagation_time_of_day.png", dpi=300)
+plt.close()
+
 
