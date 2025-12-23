@@ -148,42 +148,5 @@ print(time_window_results)
 #Visualisierung
 import matplotlib.pyplot as plt
 
-# Plot 1: Gesamtüberblick
-plt.figure(figsize=(7, 4))
-plt.plot(
-    scenario_results["S9_ROOT_DELAY_SEC"],
-    scenario_results["Predicted_Grade1_Delay_SEC"],
-    marker="o"
-)
-
-plt.xlabel("S9 Root Delay [sec]")
-plt.ylabel("Predicted Grade-1 Delay [sec]")
-plt.title("Delay Propagation: S9 → Grade-1 (Lucerne)")
-plt.grid(True)
-plt.tight_layout()
-plt.savefig("plots/delay_propagation_time_of_day.png", dpi=300)
-plt.close()
-
-
-# Plot 2: Zeitfenster-Vergleich
-plt.figure(figsize=(8, 5))
-
-for label in time_window_results["Zeitfenster"].unique():
-    subset = time_window_results[time_window_results["Zeitfenster"] == label]
-    plt.plot(
-        subset["S9_ROOT_DELAY_SEC"],
-        subset["Predicted_Grade1_Delay_SEC"],
-        marker="o",
-        label=label
-    )
-
-plt.xlabel("S9 Root Delay [sec]")
-plt.ylabel("Predicted Grade-1 Delay [sec]")
-plt.title("Delay Propagation by Time of Day")
-plt.legend()
-plt.grid(True)
-plt.tight_layout()
-plt.savefig("plots/delay_propagation_time_of_day.png", dpi=300)
-plt.close()
 
 
