@@ -1,0 +1,201 @@
+Resultate GLM Grade 1
+                 Generalized Linear Model Regression Results
+==============================================================================
+Dep. Variable:              DELAY_SEC   No. Observations:                62993
+Model:                            GLM   Df Residuals:                    62988
+Model Family:                Gaussian   Df Model:                            4
+Link Function:               Identity   Scale:                          16857.
+Method:                          IRLS   Log-Likelihood:            -3.9592e+05
+Date:                Tue, 23 Dec 2025   Deviance:                   1.0618e+09
+Time:                        22:50:52   Pearson chi2:                 1.06e+09
+No. Iterations:                     3   Pseudo R-squ. (CS):           0.009880
+Covariance Type:            nonrobust
+=========================================================================================
+                            coef    std err          z      P>|z|      [0.025      0.975]
+-----------------------------------------------------------------------------------------
+Intercept                30.1345      1.987     15.163      0.000      26.239      34.030
+S9_ROOT_DELAY_SEC         0.1217      0.005     23.067      0.000       0.111       0.132
+PLANNED_MINUTE_OF_DAY     0.0021      0.002      1.357      0.175      -0.001       0.005
+WEEKDAY_NUM              -1.6747      0.267     -6.268      0.000      -2.198      -1.151
+MONTH_NUM                -0.2452      0.164     -1.495      0.135      -0.567       0.076
+=========================================================================================
+                 Generalized Linear Model Regression Results
+==============================================================================
+Dep. Variable:              DELAY_SEC   No. Observations:                62993
+Model:                            GLM   Df Residuals:                    62984
+Model Family:                Gaussian   Df Model:                            8
+Link Function:               Identity   Scale:                          16856.
+Method:                          IRLS   Log-Likelihood:            -3.9592e+05
+Date:                Tue, 23 Dec 2025   Deviance:                   1.0617e+09
+Time:                        22:50:52   Pearson chi2:                 1.06e+09
+No. Iterations:                     3   Pseudo R-squ. (CS):           0.009976
+Covariance Type:            nonrobust
+=========================================================================================
+                            coef    std err          z      P>|z|      [0.025      0.975]
+-----------------------------------------------------------------------------------------
+Intercept                30.1690      2.121     14.222      0.000      26.011      34.327
+S9_ROOT_DELAY_SEC         0.1204      0.005     22.643      0.000       0.110       0.131
+PLANNED_MINUTE_OF_DAY     0.0018      0.002      1.155      0.248      -0.001       0.005
+WEEKDAY_NUM              -1.6773      0.268     -6.260      0.000      -2.202      -1.152
+MONTH_NUM                -0.1805      0.172     -1.052      0.293      -0.517       0.156
+Temperatur               -0.0805      0.060     -1.350      0.177      -0.197       0.036
+Niederschlag              0.8356      0.722      1.157      0.247      -0.580       2.251
+Wind                      0.1140      0.145      0.784      0.433      -0.171       0.399
+Schneehöhe                1.9278      1.390      1.387      0.166      -0.797       4.653
+=========================================================================================
+AIC Base   : 791851.9427035522
+AIC Weather: 791853.8598692502
+
+Resultate GLM Grade 2
+                 Generalized Linear Model Regression Results
+==============================================================================
+Dep. Variable:              DELAY_SEC   No. Observations:                 2252
+Model:                            GLM   Df Residuals:                     2247
+Model Family:                Gaussian   Df Model:                            4
+Link Function:               Identity   Scale:                          64159.
+Method:                          IRLS   Log-Likelihood:                -15657.
+Date:                Tue, 23 Dec 2025   Deviance:                   1.4417e+08
+Time:                        22:50:31   Pearson chi2:                 1.44e+08
+No. Iterations:                     3   Pseudo R-squ. (CS):           0.002357
+Covariance Type:            nonrobust
+=========================================================================================
+                            coef    std err          z      P>|z|      [0.025      0.975]
+-----------------------------------------------------------------------------------------
+Intercept                34.7410     17.760      1.956      0.050      -0.068      69.550
+GRADE1_DELAY_SEC          0.0101      0.015      0.696      0.487      -0.018       0.039
+PLANNED_MINUTE_OF_DAY     0.0272      0.025      1.091      0.275      -0.022       0.076
+WEEKDAY_NUM              -7.1244      3.499     -2.036      0.042     -13.982      -0.266
+MONTH_NUM                 0.9470      1.684      0.562      0.574      -2.353       4.247
+=========================================================================================
+                 Generalized Linear Model Regression Results
+==============================================================================
+Dep. Variable:              DELAY_SEC   No. Observations:                 2252
+Model:                            GLM   Df Residuals:                     2243
+Model Family:                Gaussian   Df Model:                            8
+Link Function:               Identity   Scale:                          63655.
+Method:                          IRLS   Log-Likelihood:                -15646.
+Date:                Tue, 23 Dec 2025   Deviance:                   1.4278e+08
+Time:                        22:50:31   Pearson chi2:                 1.43e+08
+No. Iterations:                     3   Pseudo R-squ. (CS):            0.01198
+Covariance Type:            nonrobust
+=========================================================================================
+                            coef    std err          z      P>|z|      [0.025      0.975]
+-----------------------------------------------------------------------------------------
+Intercept                38.2645     19.540      1.958      0.050      -0.033      76.562
+GRADE1_DELAY_SEC          0.0100      0.014      0.693      0.488      -0.018       0.038
+PLANNED_MINUTE_OF_DAY     0.0187      0.025      0.741      0.458      -0.031       0.068
+WEEKDAY_NUM              -7.3034      3.532     -2.068      0.039     -14.225      -0.381
+MONTH_NUM                 2.2929      1.753      1.308      0.191      -1.144       5.729
+Temperatur               -2.0756      0.687     -3.022      0.003      -3.422      -0.729
+Niederschlag             22.7724      7.069      3.222      0.001       8.918      36.626
+Wind                      2.3476      1.965      1.195      0.232      -1.503       6.198
+Schneehöhe                2.3096      9.914      0.233      0.816     -17.121      21.740
+=========================================================================================
+AIC Grade 2 Base   : 31323.557400701065
+AIC Grade 2 Weather: 31309.793496938284
+
+Resultate tabPFN Grade 1
+
+Final dataset shape: (62412, 25)
+N train: 49929 N test: 12483
+Train days: 2025-01-01 00:00:00 → 2025-09-22 00:00:00
+Test days : 2025-09-22 00:00:00 → 2025-11-30 00:00:00
+
+=== TabPFN Grade 1 (time-based, log-target) ===
+MAE : 27.73 sec
+RMSE: 73.82 sec
+R²  : -0.01
+
+=== Szenario-Analyse: S9 → Grade 1 Luzern ===
+   S9_ROOT_DELAY_SEC  Predicted_Grade1_Delay_SEC
+0                  0                   10.787131
+1                 60                   14.437435
+2                120                   23.315254
+3                180                   32.368370
+4                300                   34.279743
+5                600                   20.879900
+
+=== Szenario-Analyse nach Zeitfenstern ===
+                 Zeitfenster  S9_ROOT_DELAY_SEC  Predicted_Grade1_Delay_SEC
+0   HVZ_Morgen (06:30–09:00)                  0                   14.312882
+1   HVZ_Morgen (06:30–09:00)                 60                   13.002889
+2   HVZ_Morgen (06:30–09:00)                120                   21.809361
+3   HVZ_Morgen (06:30–09:00)                180                   35.431896
+4   HVZ_Morgen (06:30–09:00)                300                   51.843967
+5   HVZ_Morgen (06:30–09:00)                600                   37.698296
+6      NVZ_Tag (09:01–16:59)                  0                    4.159886
+7      NVZ_Tag (09:01–16:59)                 60                    6.647695
+8      NVZ_Tag (09:01–16:59)                120                   18.620359
+9      NVZ_Tag (09:01–16:59)                180                   30.057154
+10     NVZ_Tag (09:01–16:59)                300                   24.711294
+11     NVZ_Tag (09:01–16:59)                600                   14.135835
+12   HVZ_Abend (17:00–19:00)                  0                   10.080651
+13   HVZ_Abend (17:00–19:00)                 60                   18.849886
+14   HVZ_Abend (17:00–19:00)                120                   26.182003
+15   HVZ_Abend (17:00–19:00)                180                   36.585464
+16   HVZ_Abend (17:00–19:00)                300                   65.209465
+17   HVZ_Abend (17:00–19:00)                600                   33.643784
+18       Nacht (19:00–06:29)                  0                    3.826850
+19       Nacht (19:00–06:29)                 60                    6.763117
+20       Nacht (19:00–06:29)                120                   20.618378
+21       Nacht (19:00–06:29)                180                   30.412937
+22       Nacht (19:00–06:29)                300                   49.510036
+23       Nacht (19:00–06:29)                600                   28.170864
+
+Resultate tabPFN Grade 2
+
+Final dataset shape: (2202, 25)
+N train: 1761 N test: 441
+Train days: 2025-01-03 00:00:00 → 2025-09-30 00:00:00
+Test days : 2025-09-30 00:00:00 → 2025-11-30 00:00:00
+
+=== TabPFN Grade 2 (time-based, log-target) ===
+MAE : 64.36 sec
+RMSE: 127.85 sec
+R²  : -0.111
+
+=== Szenario A: S9 → Grade 2 (Grade 1 fix) ===
+   S9_ROOT_DELAY_SEC  Predicted_Grade2_Delay_SEC
+0                  0                   20.782234
+1                 60                   24.819582
+2                120                   27.641254
+3                180                   30.697983
+4                300                   33.057011
+5                600                   34.980755
+
+=== Szenario B: Grade 1 → Grade 2 (S9 fix) ===
+   GRADE1_DELAY_SEC  Predicted_Grade2_Delay_SEC
+0                 0                   23.823553
+1                60                   30.996201
+2               120                   33.498463
+3               180                   33.411003
+4               300                   33.287560
+5               600                   33.888096
+
+=== Szenario nach Zeitfenstern (S9 variiert) ===
+                 Zeitfenster  S9_ROOT_DELAY_SEC  Predicted_Grade2_Delay_SEC
+0   HVZ_Morgen (06:30–09:00)                  0                    7.440128
+1   HVZ_Morgen (06:30–09:00)                 60                    9.860176
+2   HVZ_Morgen (06:30–09:00)                120                   11.602480
+3   HVZ_Morgen (06:30–09:00)                180                   13.062038
+4   HVZ_Morgen (06:30–09:00)                300                   14.796046
+5   HVZ_Morgen (06:30–09:00)                600                   16.227030
+6      NVZ_Tag (09:01–16:59)                  0                    4.769195
+7      NVZ_Tag (09:01–16:59)                 60                    5.361794
+8      NVZ_Tag (09:01–16:59)                120                    6.502577
+9      NVZ_Tag (09:01–16:59)                180                    6.898970
+10     NVZ_Tag (09:01–16:59)                300                    7.516805
+11     NVZ_Tag (09:01–16:59)                600                    8.306875
+12   HVZ_Abend (17:00–19:00)                  0                    6.125176
+13   HVZ_Abend (17:00–19:00)                 60                    6.668188
+14   HVZ_Abend (17:00–19:00)                120                    7.874542
+15   HVZ_Abend (17:00–19:00)                180                    8.191976
+16   HVZ_Abend (17:00–19:00)                300                    8.481621
+17   HVZ_Abend (17:00–19:00)                600                    9.609900
+18       Nacht (19:00–06:29)                  0                    5.894906
+19       Nacht (19:00–06:29)                 60                    7.503533
+20       Nacht (19:00–06:29)                120                    9.505440
+21       Nacht (19:00–06:29)                180                   10.201204
+22       Nacht (19:00–06:29)                300                   10.628653
+23       Nacht (19:00–06:29)                600                   12.134790
+
