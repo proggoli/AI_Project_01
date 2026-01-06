@@ -22,6 +22,6 @@ in einem zweiten Schritt wird die genau gleiche Analyse erstellt, jedoch mithilf
 Mithilfe des tabPFN werden Vorhersagen simuliert, wie sich die Pünktlichkeit bei verschiedenen Verspätungen der S9 auf Grade 1 und Grade 2 Zügen verhält.
 
 ## Datengrundlage
-Als Datengrundlage dienen Interne Daten, welche aus Datenschutzgründen nicht hochgeladen werden. Betrachtet wird der Zeitraum zwischen dem 1.1.2025 und 30.11.2025.
+Als Datengrundlage dienen interne Daten, welche aus Datenschutzgründen nicht hochgeladen werden. Betrachtet wird der Zeitraum zwischen dem 1.1.2025 und 30.11.2025.
 
 Da die Daten nicht in Git hochgeladen werden (aus Datenschutzgründen) sind alle Berechnungen in der Textdatei "alle_Resultate" ersichtlich.
